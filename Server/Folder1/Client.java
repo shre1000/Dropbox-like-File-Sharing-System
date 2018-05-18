@@ -17,17 +17,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//This is code for Client side java
-//1.Implement do while loop for options/
-//Implemnt options one by one
-//samajyo ne loda?
+
 
 public class Client{
 	public static Socket connectionSocket= null;
 	public static DataOutputStream outToServer = null;
 	public static BufferedReader inFromServer = null;
 	public static InputStream in=null;
-	//public static OutputStream outToServerByte = null;
+	
 	public static Scanner KeyboardInput = new Scanner(System.in);
 
 	public static void main(String [] args){
@@ -41,7 +38,7 @@ public class Client{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//DataOutputStream outToServer = null;
+		
 		int inputFromUser;
 		do{
 			System.out.println("Welcome to Dropbox\nPlease Enter Your Choice:\n1.Register a new Account\n2.Login using existing account\n3.Exit");
@@ -55,7 +52,7 @@ public class Client{
 				try {
 					KeyboardInput.close();
 					outToServer.close();
-					//outToServerByte.close();
+					
 					inFromServer.close();
 					connectionSocket.close();
 				} catch (IOException e) {
@@ -68,7 +65,7 @@ public class Client{
 			}
 		}while(inputFromUser!=3);
 	}
-	//For registering new Account Should ask user for information
+	
 	public static void regNewAccount(){
 		int choice;
 		boolean isTerminate = true;
@@ -80,7 +77,7 @@ public class Client{
 			Email = KeyboardInput.next();
 			outToServer.writeBytes(Email+"\n");
 			outToServer.flush();
-			//System.out.println("Client flushed data");
+			
 			String bool=inFromServer.readLine();
 			if(bool.equals("false")){
 				System.out.println("Email Already Exist try with different email");
@@ -91,12 +88,12 @@ public class Client{
 				Password = KeyboardInput.next();
 				outToServer.writeBytes(Password+"\n");
 				outToServer.flush();
-				//System.out.println("Client has sent password");
+				
 				String bool1=inFromServer.readLine();
-				//System.out.println("bool is " +bool1);
+				
 				if(bool1.equals("true")){
 					System.out.println("\n\nRegistration successfull...!!!\n\n");
-					//isTerminate = false;
+					
 				}
 				else{
 					System.out.println("Something went wrong try again...");
@@ -110,7 +107,7 @@ public class Client{
 
 
 
-	//For Log In to existing account should ask user for information
+	
 
 	public static void logIntoAccount(){
 		int choice;
@@ -123,16 +120,16 @@ public class Client{
 			Email = KeyboardInput.next();
 			outToServer.writeBytes(Email+"\n");
 			outToServer.flush();
-			//System.out.println("Client flushed data");
+			
 			String bool=inFromServer.readLine();
 			if(bool.equals("true")){
 				System.out.println("Password for "+Email+":");
 				Password = KeyboardInput.next();
 				outToServer.writeBytes(Password+"\n");
 				outToServer.flush();
-				//System.out.println("Client has sent password");
+				
 				String bool1=inFromServer.readLine();
-				//System.out.println("bool is " +bool1);
+				
 				if(bool1.equals("true")){
 					System.out.println("\nLogin successfull...!!!\n\n\n");
 					do{
@@ -146,9 +143,9 @@ public class Client{
 								seeFiles(Email);
 								break;
 							case 2:
-								System.out.println("In main function before upload");
+								System.out.println("main function before upload");
 								uploadFiles();
-								System.out.println("Here in main function");
+								System.out.println("in main function");
 								break;
 							case 3:downloadFile(Email);
 								break;
@@ -165,10 +162,10 @@ public class Client{
 								break;
 						}
 					}while(choice!=6);
-						//isTerminate = false;
+						
 				}
 				else{
-					System.out.println("Username  Pass combination not working...");
+					System.out.println("Username  Password combination not working...");
 					return;
 				}
 			}
@@ -184,7 +181,7 @@ public class Client{
 	
 	
 	
-	//for deleting file
+	
 	public static void deleteFile(){
 		Scanner Input = new Scanner(System.in);
 		try {
@@ -200,20 +197,7 @@ public class Client{
 		}
 		
 	}
-	//for syncFiles duplicate version
-	//implementation and polishing
-	/*public static void syncFiles(String dirName){
-		System.out.println("Inside sync Files: ");
-		String fName="";
-		try{
-			outToServer.writeBytes("sync()\n");
-			outToServer.flush();
-		}
-	}*/
-	//for sync
-	//implementation and polishing
-	//baki chhe haji 
-	//ins kem nai work kartu???
+	
 	public static void sync(String dirName) throws IOException{
 		System.out.println("Inside sync");
 		String fName="";
@@ -221,8 +205,8 @@ public class Client{
 		outToServer.flush();
 		ArrayList<String> fileNamesClientSide = new ArrayList<>();
 		ArrayList<String> fileNamesServerSide = new ArrayList<>();
-		File pathAtClient = new File("/home/shirish/workspace/CSCI561FinalProj/Client/".concat(dirName));
-		//File path = new File(dirName);
+		File pathAtClient = new File("/home/Project/Client/".concat(dirName));
+		
 		String temp ="";
 		File [] files = pathAtClient.listFiles();
 		int length = files.length;
@@ -249,11 +233,11 @@ public class Client{
 				outToServer.writeBytes("false\n");
 				outToServer.flush();
 				String fileLenString = inFromServer.readLine();
-				//System.out.println("File len string: "+fileLenString);
+				
 				double fileLen = Double.parseDouble(fileLenString);
-				//System.out.println("Length in String: " + fileLenString);
+				
 				System.out.println("Length in double: "+fileLen);
-				String path1 = "/home/shirish/workspace/CSCI561FinalProj/Client/".concat(dirName);
+				String path1 = "/home/Project/Client/".concat(dirName);
 				path1 = path1.concat("/");
 				path1 = path1.concat(temp1);
 				System.out.println(path1);
@@ -269,9 +253,7 @@ public class Client{
 				System.out.println("Checkpoint 1");
 				FileOutputStream fileWriter = new FileOutputStream(file);
 				System.out.println("CheckPoint 2");
-			//	InputStream ins = connectionSocket.getInputStream();
-				//String something = inFromServer.readLine();
-				//System.out.println(something);
+			
 				String temp2 = "";
 				FileWriter fw = new FileWriter(path1);
 				while((temp2 = inFromServer.readLine())!=null){
@@ -284,12 +266,7 @@ public class Client{
 					}
 				}
 				fw.close();
-				/*while((count = in.read(Bytes))>=0 &&fileLen>0 ){
-					fileWriter.write(Bytes,0,count);
-					System.out.println("Count is: "+count);
-					fileLen = fileLen - count;
-					System.out.println("length is: " +length);
-				}*/
+				
 				fileWriter.close();
 			}
 			loop--;
@@ -326,8 +303,7 @@ public class Client{
 		
 		
 	}
-	//Implementation baki chhe aanu Yaad rakhje loda
-	//3times run thay pachhi banth thay jay atki jay bc
+	
 	public static void downloadFile(String dirName){
 		Scanner Input = new Scanner(System.in);
 		String fileName = null;
@@ -336,7 +312,7 @@ public class Client{
 			outToServer.writeBytes("download()\n");
 			outToServer.flush();
 			System.out.println("Client send download()");
-			//seeFiles();
+			
 			System.out.println("Client called see files");
 			System.out.println("\n\n Enter file name you want to download: ");
 			fileName = Input.next();
@@ -348,12 +324,12 @@ public class Client{
 			System.out.println("CLient received bool with "+bool);
 			if(bool.equals("true")){
 				System.out.println("in if");
-				//String fileName = inFromClient.readLine();
-				String path = "/home/shirish/workspace/CSCI561FinalProj/Client/".concat(dirName);
+				
+				String path = "/home/Project/Client/".concat(dirName);
 				path = path.concat("/");
 				path = path.concat(fileName);
 				File fout = new File(path);
-				//File fout = new File(fileName);
+				
 				FileOutputStream fileWriter = new FileOutputStream(fout);
 				int count =0;
 				String slength = inFromServer.readLine();
@@ -361,58 +337,27 @@ public class Client{
 				System.out.println("Length is: " +slength);
 				double length = Double.parseDouble(slength);
 				System.out.println("length in souble is: "+length);
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-//				
-//				count = in.read(Bytes);
-//				System.out.println("Count: "+count);
-				//count = in.read(Bytes);
+
 				if(length!=0){
 					System.out.println("Inside if");
 					int counter = 0;
 					count = in.read(Bytes);
 					while(count>=0 &&length>0 ){
-						//System.out.println("Inside loop");
+						
 						counter++;
 						System.out.println("Receiving : "+count);
 						fileWriter.write(Bytes,0,count);
-						//fileWriter.flush();
+						
 						System.out.println("Receiving : "+count);
 						length = length - count;
-						//System.out.println("length is: " +length);
+						
 						if(length==0){
 							break;
 						}
 						else
 							count = in.read(Bytes);
 					}
-				//	System.out.println("Counter is: "+counter);
+				
 					fileWriter.flush();
 					fileWriter.close();
 				}
@@ -429,17 +374,16 @@ public class Client{
 	}
 	public static void seeFiles(String dirName){
 		try{
-			//System.out.println("calling see files");
+			
 			String slength = null;
 			slength = inFromServer.readLine();
-			//System.out.println("CLient received slength");
-			//System.out.println("slength at client side is: "+slength);
+			
 			int length = Integer.parseInt(slength);
-			//System.out.println("Length is: "+length);
+			
 			ArrayList<String> fileNames = new ArrayList<>();
 			while(length>0){
 				fileNames.add(inFromServer.readLine());
-				//System.out.println("Client received file name");
+				
 				length--;
 			}
 			
@@ -447,20 +391,7 @@ public class Client{
 			for(int i =0;i<fileNames.size();i++){
 				System.out.println(i+1+". "+fileNames.get(i));
 			}
-			/*System.out.println("____________________________________________________\n\nFiles on Client Side are: \n");
-			ArrayList<String> fileNamesClientSide = new ArrayList<>();
-			File pathAtClient = new File("/home/shirish/workspace/CSCI561FinalProj/Client/".concat(dirName));
-			//File path = new File(dirName);
-			String temp ="";
-			File [] files = pathAtClient.listFiles();
-			int length1 = files.length;
-			for(int i=0;i<length1;i++){
-				temp = files[i].getName();
-				fileNamesClientSide.add(temp);
-			}
-			for(int i=0;i<fileNamesClientSide.size();i++){
-				System.out.println(i+". "+fileNamesClientSide.get(i));
-			}*/
+			
 			System.out.println("____________________________________________________\n\n");
 		}catch(IOException e){
 			e.printStackTrace();
@@ -468,7 +399,7 @@ public class Client{
 		}
 	}
 
-	//For uploading files
+	
 	public static void uploadFiles(){
 		byte[] bytes = new byte[100];
 		Scanner KeyboardInput = new Scanner(System.in);
@@ -493,9 +424,7 @@ public class Client{
 			InputStream fis = new FileInputStream(file);
 			while ((count = fis.read(bytes)) >= 0&& count!=-1) {
 	    		System.out.println("Sending " + count);
-	    		//String toServer = new String(bytes);
-	    		//System.out.println("Sending "+toServer);
-	    		//outToServer.writeBytes(toServer);
+	    		
 	    		outToServerByte.write(bytes, 0, count);
 	    		outToServerByte.flush();
 	    	}
@@ -507,8 +436,7 @@ public class Client{
 			System.out.println("Something wrong happen while creating streams");
 		}
 	}
-	//For Printing thanks message
-
+	
 	public static void printExit(){
 		try {
 			outToServer.writeBytes("exit\n");
@@ -521,7 +449,7 @@ public class Client{
 		System.out.println("Thanks for visiting Dropbox\n\n");
 	}
 
-	//for logging out
+	
 	public static void logout(){
 		String response = null;
 		try {
